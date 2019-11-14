@@ -157,7 +157,7 @@ server <- function(input, output) {
     filename = function(){paste(input$parameter,'.png',sep='')
     },
     content = function(file){
-      ggsave(file, fun_plot())
+      ggsave(file, reactive_plot())
       while (!is.null(dev.list())) dev.off()
     }
   )
@@ -168,7 +168,7 @@ server <- function(input, output) {
       paste(input$parameter, ".csv", sep = "")
     },
     content = function(file) {
-      write.csv(fun_table(), file, row.names = FALSE)
+      write.csv(reactive_tbl(), file, row.names = FALSE)
     }
   )
 }
