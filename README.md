@@ -10,7 +10,7 @@ Each folder in this repository contains all code/data/images that correspond to 
 
 ## App 1 - Data distributions 
 
-
+App 1 provides user output relating to parameter distributions
 
 ## App 2 - Lake Type Aggregations 
 
