@@ -10,7 +10,7 @@ Each folder in this repository contains all code/data/images that correspond to 
 
 ## App 1 - Data distributions 
 
-App 1 allows the user to create frequency distributions, summary statistics, and tabulated data for water quality parameters contained in the *Indiana Lake Water Quality Assessment Report for 2015-2018*.  The `App_1_Distributions` folder contains the files used to render the app.  The url for the app can be found [here](https://corysauve.shinyapps.io/nalms_app_1/).  Please note that this app is under development and is currently hosted on a limited use server.  
+App 1 allows the user to create frequency distributions, summary statistics, and tabulated data for water quality parameters contained in the *Indiana Lake Water Quality Assessment Report for 2015-2018*.  The `App_1_Distributions` folder contains the files used to render the app.  The web version for the app can be found [here](https://corysauve.shinyapps.io/nalms_app_1/).  Please note that this app is under development and is currently hosted on a limited use server.  
 
 ## App 2 - Lake Type Aggregations 
 
