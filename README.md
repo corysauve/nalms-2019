@@ -16,7 +16,7 @@ App 1 allows the user to generate frequency distributions, summary statistics, a
 
 App 2 allows the user to aggregate data from the *Indiana Lake Water Quality Assessment Report for 2015-2018* by lake type and generate boxplots, summary statistics, and tabulated data.  In addition, both plot and table outputs are able to be downloaded as .png and .csv files, respectively.  The `App_2_LakeType` folder contains the files used to render the app. Please note that this app is under development and is currently hosted on a limited use server.  
 
-![alt text](https://github.com/corysauve/NALMS-2019/blob/master/readme_pics/app1_dist.png)
+![alt text](https://github.com/corysauve/NALMS-2019/blob/master/readme_pics/app2_dist.png)
 
 ## App 3 - Ecoregion Aggregations 
 
