@@ -22,8 +22,6 @@ App 2 allows the user to aggregate data from the *Indiana Lake Water Quality Ass
 
 ## App 3 - Ecoregion Aggregations 
 
-App 3 allows the user to aggregate data from the *Indiana Lake Water Quality Assessment Report for 2015-2018* by ecoregion and generate boxplots, summary statistics, and tabulated data.  In addition, both plot and table outputs are able to be downloaded as .png and .csv files, respectively.  The `App_3_Ecoregion` folder contains the files used to render the app. Please note that this app is under development and is currently hosted on a limited use server.  
+App 3 allows the user to aggregate data from the *Indiana Lake Water Quality Assessment Report for 2015-2018* by ecoregion and generate boxplots, summary statistics, and tabulated data.  In addition, both plot and table outputs are able to be downloaded as .png and .csv files, respectively.  The `App_3_Ecoregion` folder contains the files used to render the app. The web version for the app can be found [here](https://corysauve.shinyapps.io/nalms_ecoregion/). Please note that this app is under development and is currently hosted on a limited use server.  If you experience any bugs while using the app, please create a new issue. 
 
-## App 4 - Dashboard 
-
-App 4 provides an interactive dashboard for the *Indiana Lake Water Quality Assessment Report for 2015-2018*.  The dashboard provides all output from App 1, 2, and 3.  The user can also generate data requests from the entire report dataset and produce customized reports for a specific lake.  The `App_4_Dashboard` folder contains the files used to render the app. Please note that this app is under development and is currently hosted on a limited use server.  
+![alt text](https://github.com/corysauve/NALMS-2019/blob/master/readme_pics/app3_ecoregion.png)
