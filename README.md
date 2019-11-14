@@ -1,6 +1,6 @@
 # NALMS-2019 
 
-## Background 
+## Background Info
 
 This repository contains the code used to create the `R Shiny` apps that were used in my talk, *Telling the story of Indiana lake water quality with interactive web-based mapping and data visualization*.  The talk was presented at the 39th International Symposium of the North American Lake Management Society in Burlington, VT on November 12, 2019.  
 
