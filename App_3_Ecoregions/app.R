@@ -10,6 +10,7 @@ library(data.table)
 data <- readr::read_csv("app_3_data.csv")
 data <- na.omit(data)
 data$year <- as.factor(data$year)
+data <- data %>% filter(!parameter == "tkn") # don't want to inlucde tkn...only used for Org-N calc
 
 # Variable lists 
 parameter_names <- as.list(unique(data$parameter))
