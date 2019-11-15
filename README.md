@@ -30,7 +30,7 @@ App 3 allows the user to aggregate data from the *Indiana Lake Water Quality Ass
 
 ## App 4 - Report Dashboard 
 
-App 4 creates a dashboards that contains the functionality of the above apps plus a little more.  The user can see output from multiple inputs on one screen, access background information about the report, use an interactive table, and create a custom report based on a specific lake.  Currently, the dashboard and table tabs are functioning properly.  The custom report and background tabs are only place holders here. Once we have a final draft, these will be updated and functioning properly.  The `App_4_Dashboard` folder contains the files used to render the app.  The web version for the app can be found [here](https://corysauve.shinyapps.io/nalms_dashboard/). 
+App 4 creates a dashboards that contains the functionality of the above apps plus a little more.  The user can see output from multiple inputs on one screen, access background information about the report, use an interactive table, and create a custom report based on a specific lake.  Currently, the dashboard and table tabs are functioning properly.  The custom report and background tabs are only place holders here. Once we have a final draft, these will be updated and functioning properly. In addition, it is possible to only have one .csv file to run this app.  Currently, there are multiple .csv files only due to save time to develop examples for my talk.  The `App_4_Dashboard` folder contains the files used to render the app.  The web version for the app can be found [here](https://corysauve.shinyapps.io/nalms_dashboard/). 
 
 ![alt text](https://github.com/corysauve/NALMS-2019/blob/master/readme_pics/app4_dashboard.png)
 
