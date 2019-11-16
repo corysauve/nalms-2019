@@ -8,7 +8,7 @@ The sections below provide a brief description of what each web application does
 
 Each folder in this repository contains all code/data/images that correspond to each app. My slides can also be found in the `slides` folder. 
 
-A final friendly reminder. These apps are under development and the examples below serve as *examples* for how the actual apps will behave.  Therefore, some of the functionality will likely not work or break.  Please do not start a new issue if you come across problems as they will likely be fixed (or may be already fixed in a new version and not updated here).  I'd love to hear about suggestions you may have on the appearance and functionality of the apps!
+A final friendly reminder. These apps are under development and the examples below serve as *templates* for how the actual apps will behave.  Therefore, some of the functionality will likely not work or break.  Please do not start a new issue if you come across problems as they will likely be fixed (or may be already fixed in a new version and not updated here).  I'd love to hear about suggestions you may have on the appearance and functionality of the apps!
 
 ## App 1 - Data distributions 
 
@@ -30,7 +30,7 @@ App 3 allows the user to aggregate data from the *Indiana Lake Water Quality Ass
 
 ## App 4 - Report Dashboard 
 
-App 4 creates a dashboards that contains the functionality of the above apps plus a little more.  The user can see output from multiple inputs on one screen, access background information about the report, use an interactive table, and create a custom report based on a specific lake.  Currently, the dashboard and table tabs are functioning properly.  The custom report and background tabs are only place holders here. Once we have a final draft, these will be updated and functioning properly. In addition, it is possible to only have one .csv file to run this app.  Currently, there are multiple .csv files only due to save time to develop examples for my talk.  The `App_4_Dashboard` folder contains the files used to render the app.  The web version for the app can be found [here](https://corysauve.shinyapps.io/nalms_dashboard/). 
+App 4 creates a dashboards that contains the functionality of the above apps plus a little more.  The user can see output from multiple inputs on one screen, access background information about the report, use an interactive table, and create a custom report based on a specific lake.  Currently, the dashboard and table tabs are functioning properly.  The custom report and background tabs are only place holders here. Once we have a final draft, these will be updated and functioning properly. In addition, it is possible to only have one .csv file to run this app.  Currently, there are multiple .csv files only to save time to develop examples for my talk.  The `App_4_Dashboard` folder contains the files used to render the app.  The web version for the app can be found [here](https://corysauve.shinyapps.io/nalms_dashboard/). 
 
 ![alt text](https://github.com/corysauve/NALMS-2019/blob/master/readme_pics/app4_dashboard.png)
 
