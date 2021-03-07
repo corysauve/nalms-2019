@@ -1,0 +1,366 @@
+---
+title: "data_manip_for_app"
+author: "Cory Sauve"
+date: "10/16/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Outline 
+
+## App 1 - Distributions 
+
+#### Libraries 
+
+```{r}
+library(tidyverse)
+library(here)
+```
+
+#### Data 
+
+Original dataframe 
+```{r}
+lwqa_data <- read_csv(here("2_data", "lwqa_data_clean.csv"),
+                      col_types = cols(micro_ug_L = "d", tn_avg = "d"))
+```
+
+Cleaning data for all apps 
+```{r}
+lwqa_data_clean <- lwqa_data %>% 
+  # remove random cols 
+  select(-X1, -X1_1) %>% 
+  # fix tn_avg col 
+  mutate(tn_avg = (tn_epi + tn_hypo) / 2)
+```
+
+App 1 data 
+```{r}
+# Select variables for App 1 
+app_1_data <- lwqa_data_clean %>% 
+  select(sample_id, lake_name, sa_ha, year, date_sampled, max_depth_m, secchi_m,
+         ph_epi:tp_hypo, alk_avg:tp_avg, tn_avg:69)
+
+# Gather variables 
+app_1_data <- app_1_data %>% 
+  gather(key = "parameter", value = "value", 
+         -sample_id, -lake_name, -year, -date_sampled)
+  
+# Split variables into sample_location column
+
+app_1_data1 <- app_1_data %>% 
+  filter(parameter %in% c("max_depth_m", "secchi_m", "sa_ha")) %>% 
+  mutate(sample_location = NA) %>% 
+  select(sample_id, lake_name, year, date_sampled, parameter, sample_location, value)
+
+app_1_data2 <- app_1_data %>% 
+  filter(!parameter %in% c("max_depth_m", "secchi_m", "sa_ha")) %>% 
+  separate(parameter, c("parameter", "sample_location"))
+
+# Final df 
+
+app_1_data_final <- rbind(app_1_data1, app_1_data2)
+
+# Editing final df 
+
+app_1_data_final <- app_1_data_final %>% 
+  mutate(parameter = ifelse(parameter == "alk", "Alkalinity (mg/L)", parameter),
+         parameter = ifelse(parameter == "cond", "Conductivity (mg/L)", parameter),
+         parameter = ifelse(parameter == "max_depth_m", "Max depth (m)", parameter),
+         parameter = ifelse(parameter == "nh3", "Ammonia (mg/L)", parameter),
+         parameter = ifelse(parameter == "no3", "Nitrate (mg/L)", parameter),
+         parameter = ifelse(parameter == "orgn", "Organic-N (mg/L)", parameter),
+         parameter = ifelse(parameter == "ph", "pH", parameter),
+         parameter = ifelse(parameter == "sa_ha", "Surface Area (ha)", parameter),
+         parameter = ifelse(parameter == "secchi_m", "Secchi depth (m)", parameter),
+         parameter = ifelse(parameter == "srp", "Soluble Reactive Phosphorus (mg/L)", parameter),
+         parameter = ifelse(parameter == "tn", "Total Nitrogen (mg/L)", parameter),
+         parameter = ifelse(parameter == "tp", "Total Phosphorus (mg/L)", parameter),
+         sample_location = ifelse(sample_location == "epi", "Epilimnion", sample_location),
+         sample_location = ifelse(sample_location == "hypo", "Hypolimnion", sample_location),
+         sample_location = ifelse(sample_location == "avg", "Average", sample_location),
+         sample_location = ifelse(is.na(sample_location), "Epilimnion", sample_location)
+  )
+```
+
+```{r, eval=FALSE}
+write.csv(app_1_data_final, file = "app_1_data.csv")
+```
+  
+## App 2 - Lake Type Aggregation 
+
+```{r}
+
+# Select variables for App 1 
+app_2_data <- lwqa_data_clean %>% 
+  select(sample_id, lake_name, lake_type, sa_ha, year, date_sampled, max_depth_m, secchi_m,
+         ph_epi:tp_hypo, alk_avg:tp_avg, tn_avg:69)
+
+# Gather variables 
+app_2_data <- app_2_data %>% 
+  gather(key = "parameter", value = "value", 
+         -sample_id, -lake_name, -year, -date_sampled, -lake_type)
+  
+# Split variables into sample_location column
+
+app_2_data1 <- app_2_data %>% 
+  filter(parameter %in% c("max_depth_m", "secchi_m", "sa_ha")) %>% 
+  mutate(sample_location = NA) %>% 
+  select(sample_id, lake_name, lake_type, year, date_sampled, parameter, sample_location, value)
+
+app_2_data2 <- app_2_data %>% 
+  filter(!parameter %in% c("max_depth_m", "secchi_m", "sa_ha")) %>% 
+  separate(parameter, c("parameter", "sample_location"))
+
+# Final df 
+
+app_2_data_final <- rbind(app_2_data1, app_2_data2)
+
+# Editing final df 
+
+app_2_data_final <- app_2_data_final %>% 
+  mutate(parameter = ifelse(parameter == "alk", "Alkalinity (mg/L)", parameter),
+         parameter = ifelse(parameter == "cond", "Conductivity (mg/L)", parameter),
+         parameter = ifelse(parameter == "max_depth_m", "Max depth (m)", parameter),
+         parameter = ifelse(parameter == "nh3", "Ammonia (mg/L)", parameter),
+         parameter = ifelse(parameter == "no3", "Nitrate (mg/L)", parameter),
+         parameter = ifelse(parameter == "orgn", "Organic-N (mg/L)", parameter),
+         parameter = ifelse(parameter == "ph", "pH", parameter),
+         parameter = ifelse(parameter == "sa_ha", "Surface Area (ha)", parameter),
+         parameter = ifelse(parameter == "secchi_m", "Secchi depth (m)", parameter),
+         parameter = ifelse(parameter == "srp", "Soluble Reactive Phosphorus (mg/L)", parameter),
+         parameter = ifelse(parameter == "tn", "Total Nitrogen (mg/L)", parameter),
+         parameter = ifelse(parameter == "tp", "Total Phosphorus (mg/L)", parameter),
+         sample_location = ifelse(sample_location == "epi", "Epilimnion", sample_location),
+         sample_location = ifelse(sample_location == "hypo", "Hypolimnion", sample_location),
+         sample_location = ifelse(sample_location == "avg", "Average", sample_location),
+         sample_location = ifelse(is.na(sample_location), "Average", sample_location),
+         lake_type = ifelse(lake_type == "natural lake", "Natural Lake", lake_type),
+         lake_type = ifelse(lake_type == "impoundment", "Impoundment", lake_type)
+  ) %>% 
+  filter(sample_location == "Average")
+
+#write.csv(app_2_data_final, "app_2_data.csv")
+```
+
+## App 3 - Ecoregion 
+
+```{r}
+# Select variables for App 1 
+app_3_data <- lwqa_data_clean %>% 
+  select(sample_id, lake_name, ecoregion_3, sa_ha, year, date_sampled, max_depth_m, secchi_m,
+         ph_epi:tp_hypo, alk_avg:tp_avg, tn_avg:69)
+
+# Gather variables 
+app_3_data <- app_3_data %>% 
+  gather(key = "parameter", value = "value", 
+         -sample_id, -lake_name, -year, -date_sampled, -ecoregion_3)
+  
+# Split variables into sample_location column
+
+app_3_data1 <- app_3_data %>% 
+  filter(parameter %in% c("max_depth_m", "secchi_m", "sa_ha")) %>% 
+  mutate(sample_location = NA) %>% 
+  select(sample_id, lake_name, ecoregion_3, year, date_sampled, parameter, sample_location, value)
+
+app_3_data2 <- app_3_data %>% 
+  filter(!parameter %in% c("max_depth_m", "secchi_m", "sa_ha")) %>% 
+  separate(parameter, c("parameter", "sample_location"))
+
+# Final df 
+
+app_3_data_final <- rbind(app_3_data1, app_3_data2)
+
+# Editing final df 
+
+app_3_data_final <- app_3_data_final %>% 
+  mutate(parameter = ifelse(parameter == "alk", "Alkalinity (mg/L)", parameter),
+         parameter = ifelse(parameter == "cond", "Conductivity (mg/L)", parameter),
+         parameter = ifelse(parameter == "max_depth_m", "Max depth (m)", parameter),
+         parameter = ifelse(parameter == "nh3", "Ammonia (mg/L)", parameter),
+         parameter = ifelse(parameter == "no3", "Nitrate (mg/L)", parameter),
+         parameter = ifelse(parameter == "orgn", "Organic-N (mg/L)", parameter),
+         parameter = ifelse(parameter == "ph", "pH", parameter),
+         parameter = ifelse(parameter == "sa_ha", "Surface Area (ha)", parameter),
+         parameter = ifelse(parameter == "secchi_m", "Secchi depth (m)", parameter),
+         parameter = ifelse(parameter == "srp", "Soluble Reactive Phosphorus (mg/L)", parameter),
+         parameter = ifelse(parameter == "tn", "Total Nitrogen (mg/L)", parameter),
+         parameter = ifelse(parameter == "tp", "Total Phosphorus (mg/L)", parameter),
+         sample_location = ifelse(sample_location == "epi", "Epilimnion", sample_location),
+         sample_location = ifelse(sample_location == "hypo", "Hypolimnion", sample_location),
+         sample_location = ifelse(sample_location == "avg", "Average", sample_location),
+         sample_location = ifelse(is.na(sample_location), "Average", sample_location),
+         ecoregion_3 = ifelse(ecoregion_3 == 57, "Huron-Erie Lake Plain", ecoregion_3),
+         ecoregion_3 = ifelse(ecoregion_3 == 56, "MI-IN Till Plain", ecoregion_3),
+         ecoregion_3 = ifelse(ecoregion_3 == 54, "Central Corn Belt Plain", ecoregion_3),
+         ecoregion_3 = ifelse(ecoregion_3 == 55, "Eastern Corn Belt Plain", ecoregion_3),
+         ecoregion_3 = ifelse(ecoregion_3 == 72, "Interior River Lowland", ecoregion_3),
+         ecoregion_3 = ifelse(ecoregion_3 == 71, "Interior River", ecoregion_3)
+  ) %>% 
+  filter(sample_location == "Average")
+
+#write.csv(app_3_data_final, "app_3_data.csv")
+```
+
+## App 4 - Plankton 
+```{r}
+
+# Select variables for App 1 
+app_4_data <- lwqa_data_clean %>% 
+  select(sample_id, lake_name, lake_type, ecoregion_3, year, date_sampled, secchi_m, chla_ug_L, pktn_cells_mL:zoo_cells_mL)
+
+# Gather variables 
+app_4_data <- app_4_data %>% 
+  gather(key = "parameter", value = "value", 
+         -sample_id, -lake_name, -lake_type, -ecoregion_3, -year, -date_sampled, -ecoregion_3)
+
+# Editing final df 
+app_4_data_final <- app_4_data %>% 
+  mutate(parameter = ifelse(parameter == "bg_cell_mL", "Blue-green Density (cells/mL)", parameter),
+         parameter = ifelse(parameter == "bg_dom_cell_per", "Blue-green Dominance (% cells)", parameter),
+         parameter = ifelse(parameter == "bg_dom_nu_per", "Blue-green Dominance (% NU)", parameter),
+         parameter = ifelse(parameter == "bg_num_L", "Blue-green Density (NU/L)", parameter),
+         parameter = ifelse(parameter == "chla_ug_L", "Chlorophyll-a (ug/L)", parameter),
+         parameter = ifelse(parameter == "diatoms_cells_mL", "Diatom Density (cells/mL)", parameter),
+         parameter = ifelse(parameter == "diatoms_nu_L", "Diatoms (NU/L)", parameter),
+         parameter = ifelse(parameter == "green_cell_mL", "Green Density (cells/mL)", parameter),
+         parameter = ifelse(parameter == "green_num_L", "Green Density (NU/L)", parameter),
+         parameter = ifelse(parameter == "other_algae_cells_mL", "Other Algae (cells/mL)", parameter),
+         parameter = ifelse(parameter == "other_algae_nu_L", "Other Algae (NU/L)", parameter),
+         parameter = ifelse(parameter == "pktn_cells_mL", "Total Plankton (cells/mL)", parameter),
+         parameter = ifelse(parameter == "pktn_num_L", "Total Plankton (NU/L)", parameter),
+         parameter = ifelse(parameter == "rotifer_num_L", "Rofiter Density (NU/L)", parameter),
+         parameter = ifelse(parameter == "secchi_m", "Secchi Depth (m)", parameter),
+         parameter = ifelse(parameter == "zoo_num_L", "Zooplankton (NU/L)", parameter),
+         ecoregion_3 = ifelse(ecoregion_3 == 57, "Huron-Erie Lake Plain", ecoregion_3),
+         ecoregion_3 = ifelse(ecoregion_3 == 56, "MI-IN Till Plain", ecoregion_3),
+         ecoregion_3 = ifelse(ecoregion_3 == 54, "Central Corn Belt Plain", ecoregion_3),
+         ecoregion_3 = ifelse(ecoregion_3 == 55, "Eastern Corn Belt Plain", ecoregion_3),
+         ecoregion_3 = ifelse(ecoregion_3 == 72, "Interior River Lowland", ecoregion_3),
+         ecoregion_3 = ifelse(ecoregion_3 == 71, "Interior River", ecoregion_3),
+         lake_type = ifelse(lake_type == "natural lake", "Natural Lake", lake_type),
+         lake_type = ifelse(lake_type == "impoundment", "Impoundment", lake_type)
+   )
+
+write.csv(app_4_data_final, "app_4_data.csv")
+```
+
+## App 5 - Trophic State Index 
+
+
+## App 5 - Water Profile Analyzer 
+
+
+## App 6 - Data Download 
+
+#### Libraries 
+
+#### Data 
+
+#### Functionality 
+
+## App 7 - Dashboard combining Apps 1-6
+
+#### Libraries 
+
+#### Data 
+
+#### Functionality 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+
+df <- read_csv("lwqa_data_clean.csv", 
+               col_types = cols(tn_avg = "d",
+                                micro_ug_L = "d"))
+
+```
+```{r}
+df1 <- df %>% select(-X1, -X1_1)
+```
+
+```{r}
+names(df1)
+```
+
+Needs:
+
+Break by sample type (epi, hypo, avg) --> make new dataframes 
+Rename to just have parameter 
+Gather and make new column `sample_type` (Epilimnion, Hypolimnion, Average)
+Bind df's together to make df for Shiny app 
+
+App 1 - Parameter Distrubutions 
+
+App 2 - Lake Type/Ecoregion Aggregations 
+
+App 3 - Plankton 
+
+App 4 - Data Download 
+
+App 5 - Water Profile Analyzer 
+
+App 6 - Maybe make a dashboard of all the data 
+
+```{r}
+names(df1)
+```
+
+# App 1 data (Distributions)
+```{r}
+df2 <- df1 %>% 
+  mutate(tn_avg = (tn_epi + tn_hypo) / 2)
+
+df3 <- df2 %>% 
+  select(sample_id, lake_name, 4:5, 9:
+
+```
+
+```{r}
+```
+
+
+
+```{r}
+names(app_1_data)
+```
+
+```{r}
+test <- 
+  gather(app_1_data, key = "sample_id", value = "value", max_depth_m:tn_hypo) %>% 
+  select()
+```
+
+
+```{r}
+save(app_1_data, file = "app_1_data.RData")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
